@@ -2,16 +2,32 @@
 /**
  * Shortcode: [osd_booking_login_button]
  * Outputs a styled login button.
+ *
+ * Attributes:
+ *   url  - The URL the login button links to. Defaults to '#' if not specified.
+ *
+ * Usage:
+ *   [osd_booking_login_button]
+ *   [osd_booking_login_button url="https://ict.osd.ie/login"]
  */
-
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
 add_shortcode( 'osd_booking_login_button', 'osd_booking_login_button_shortcode' );
 
-function osd_booking_login_button_shortcode() {
-    return '<a href="#" class="ict-login-btn">Login</a>
+function osd_booking_login_button_shortcode( $atts ) {
+    $atts = shortcode_atts(
+        array(
+            'url' => '#',
+        ),
+        $atts,
+        'osd_booking_login_button'
+    );
+
+    $url = esc_url( $atts['url'] );
+
+    return '<a href="' . $url . '" class="ict-login-btn">Login</a>
 <style>
 .ict-login-btn {
   display: inline-block;
@@ -35,4 +51,5 @@ function osd_booking_login_button_shortcode() {
   color: #011F3D;
 }
 </style>';
+
 }
