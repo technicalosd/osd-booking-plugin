@@ -2,7 +2,7 @@
 
 <div class="wrap">
     <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-
+    <p>Shortcodes that can bs used to implement booking processes on pages.</p>
     <div class="card" style="max-width: 600px; padding: 20px; margin-top: 20px;">
         <h2>Login Button</h2>
         <p>Use the following shortcode to display the booking login button on any page or post:</p>
