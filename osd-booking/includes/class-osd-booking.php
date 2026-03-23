@@ -46,4 +46,20 @@ class OSD_Booking {
             true
         );
     }
+
+    public function register_admin_menu() {
+        add_menu_page(
+            'OSD Booking',
+            'OSD Booking',
+            'manage_options',
+            'osd-booking',
+            array( $this, 'render_admin_page' ),
+            'dashicons-calendar-alt',
+            30
+        );
+    }
+
+    public function render_admin_page() {
+        include OSD_BOOKING_PLUGIN_DIR . 'admin/partials/osd-booking-admin-display.php';
+    }
 }
