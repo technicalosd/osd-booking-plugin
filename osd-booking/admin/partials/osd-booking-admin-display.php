@@ -14,6 +14,7 @@
         <p>Use the following shortcode to display the booking form on any page or post:</p>
         <code style="font-size: 1.2em; padding: 8px 12px; background: #f0f0f0; display: inline-block; border-radius: 4px;">
             [osd_booking]
+            [osd_booking_login_button]
         </code>
     </div>
 </div>
