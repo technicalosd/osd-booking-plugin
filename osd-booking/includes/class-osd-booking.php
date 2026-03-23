@@ -13,6 +13,7 @@ class OSD_Booking {
     public function run() {
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_assets' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
+        add_action( 'admin_menu', array( $this, 'register_admin_menu' ) );
     }
 
     public function enqueue_public_assets() {
