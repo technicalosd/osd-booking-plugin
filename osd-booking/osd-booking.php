@@ -23,8 +23,11 @@ define( 'OSD_BOOKING_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 require_once OSD_BOOKING_PLUGIN_DIR . 'includes/class-osd-booking-activator.php';
 require_once OSD_BOOKING_PLUGIN_DIR . 'includes/class-osd-booking-deactivator.php';
 require_once OSD_BOOKING_PLUGIN_DIR . 'includes/class-osd-booking.php';
+
+// ── Shortcodes ──────────────────────────────────────────────────────────
 require_once OSD_BOOKING_PLUGIN_DIR . 'shortcodes/osd-login-button.php';
 require_once OSD_BOOKING_PLUGIN_DIR . 'shortcodes/osd-search-box.php';
+require_once OSD_BOOKING_PLUGIN_DIR . 'shortcodes/osd-event-listing.php'; // [osd_event_listing]
 
 register_activation_hook( __FILE__, array( 'OSD_Booking_Activator', 'activate' ) );
 register_deactivation_hook( __FILE__, array( 'OSD_Booking_Deactivator', 'deactivate' ) );
