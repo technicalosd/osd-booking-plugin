@@ -86,10 +86,8 @@ function osd_event_listing_shortcode(): string {
                 <tr>
                     <td class="col-event"><?php echo $name; ?></td>
                     <td class="col-date"><?php echo $dates; ?></td>
-                    <td class="col-more">
+                    <td class="col-actions">
                         <a href="<?php echo $more_url; ?>" class="btn btn-more">More Info</a>
-                    </td>
-                    <td class="col-book">
                         <a href="<?php echo $book_url; ?>" class="btn btn-book">Book Now</a>
                     </td>
                 </tr>
@@ -166,6 +164,8 @@ function osd_event_listing_css(): string {
     .tafe-table-wrap {
         max-width: 900px;
         margin: 0 auto;
+        container-type: inline-size;
+        container-name: tafe-listing;
     }
 
     .tafe-table {
@@ -206,11 +206,11 @@ function osd_event_listing_css(): string {
         width: 26%;
     }
 
-    .tafe-table .col-more,
-    .tafe-table .col-book {
+    /* Actions cell: buttons sit right-aligned side by side on desktop */
+    .tafe-table .col-actions {
         text-align: right;
         white-space: nowrap;
-        width: 18%;
+        width: 36%;
     }
 
     .tafe-table .btn {
@@ -224,6 +224,10 @@ function osd_event_listing_css(): string {
         cursor: pointer;
         border: none;
         transition: opacity 0.18s ease, transform 0.15s ease;
+    }
+
+    .tafe-table .btn + .btn {
+        margin-left: 8px;
     }
 
     .tafe-table .btn:hover {
@@ -241,8 +245,8 @@ function osd_event_listing_css(): string {
         color: #ffffff;
     }
 
-    /* ── Tablet ───────────────────────────────────────────────── */
-    @media (max-width: 720px) {
+    /* ── Tablet (container ≤ 720px) ──────────────────────────── */
+    @container tafe-listing (max-width: 720px) {
         .tafe-table .col-event { width: auto; }
         .tafe-table .col-date  { width: auto; }
 
@@ -252,15 +256,14 @@ function osd_event_listing_css(): string {
         }
     }
 
-    /* ── Mobile cards ─────────────────────────────────────────── */
-    @media (max-width: 560px) {
-        .tafe-table,
-        .tafe-table tbody,
-        .tafe-table tr,
-        .tafe-table td {
-            display: block;
-            width: 100%;
-        }
+    /* ── Mobile cards (container ≤ 560px) ────────────────────── */
+    @container tafe-listing (max-width: 560px) {
+
+        /* Force the browser to abandon table layout entirely */
+        .tafe-table         { display: block !important; width: 100% !important; }
+        .tafe-table tbody   { display: block !important; width: 100% !important; }
+        .tafe-table tr      { display: block !important; width: 100% !important; }
+        .tafe-table td      { display: block !important; width: 100% !important; }
 
         .tafe-table tbody tr {
             border-radius: 10px;
@@ -269,6 +272,7 @@ function osd_event_listing_css(): string {
             padding: 0;
         }
 
+        /* Drop the row-separator border — cards have their own gap */
         .tafe-table tbody tr + tr td {
             border-top: none;
         }
@@ -277,6 +281,7 @@ function osd_event_listing_css(): string {
             padding: 10px 16px;
             text-align: left;
             white-space: normal;
+            box-sizing: border-box;
         }
 
         .tafe-table .col-event {
@@ -286,29 +291,31 @@ function osd_event_listing_css(): string {
 
         .tafe-table .col-date {
             padding-top: 2px;
+            padding-bottom: 10px;
             font-size: 0.85rem;
             color: #4b5563;
         }
 
-        .tafe-table .col-more,
-        .tafe-table .col-book {
-            display: inline-block;
-            width: 50%;
-            padding: 8px 8px 8px 16px;
-            vertical-align: top;
-            text-align: left;
+        /* Actions cell: override back to flex for the two buttons */
+        .tafe-table .col-actions {
+            display: flex !important;
+            gap: 10px;
+            padding: 0 16px 14px;
+            white-space: normal;
+            width: 100% !important;
+            box-sizing: border-box;
         }
 
-        .tafe-table .col-book {
-            padding-bottom: 14px;
-        }
-
-        .tafe-table .btn {
-            display: block;
-            width: 100%;
+        .tafe-table .col-actions .btn {
+            flex: 1;
             text-align: center;
             padding: 11px 10px;
             font-size: 0.87rem;
+            margin-left: 0;
+        }
+
+        .tafe-table .col-actions .btn + .btn {
+            margin-left: 0;
         }
     }
     ';
