@@ -28,6 +28,7 @@ require_once OSD_BOOKING_PLUGIN_DIR . 'includes/class-osd-booking.php';
 require_once OSD_BOOKING_PLUGIN_DIR . 'shortcodes/osd-login-button.php';
 require_once OSD_BOOKING_PLUGIN_DIR . 'shortcodes/osd-search-box.php';
 require_once OSD_BOOKING_PLUGIN_DIR . 'shortcodes/osd-event-listing.php'; // [osd_event_listing]
+require_once OSD_BOOKING_PLUGIN_DIR . 'shortcodes/osd-upcoming-cards.php'; // [osd_upcoming_cards]
 
 register_activation_hook( __FILE__, array( 'OSD_Booking_Activator', 'activate' ) );
 register_deactivation_hook( __FILE__, array( 'OSD_Booking_Deactivator', 'deactivate' ) );
