@@ -130,16 +130,14 @@ add_filter( 'osd_booking_events', function( $events ) {
         </script>
     </div>
 
-
-
     <!-- ── Upcoming Cards ────────────────────────────────────────── -->
     <div class="card" style="max-width: 1200px; padding: 20px; margin-top: 20px;">
         <h2>Upcoming Cards</h2>
         <p>Use the following shortcode to display a responsive grid of upcoming event cards on any page or post:</p>
-        <code style="font-size: 1.2em; padding: 8px 12px; background: #f0f0f0; display: inline-block; border-radius: 4px; margin-bottom: 12px;">
+        <code style="font-size: 1.2em; padding: 8px 12px; background: #f0f0f0; display: inline-block; border-radius: 4px; margin-bottom: 20px;">
             [osd_upcoming_cards]
         </code>
-        <p style="margin-top: 10px;">
+        <p>
             Events are defined in <code>shortcodes/osd-upcoming-cards.php</code>.<br>
             Each record requires: <code>image</code>, <code>img_width</code>, <code>img_height</code>,
             <code>img_srcset</code>, <code>img_sizes</code>, <code>img_class</code>,
@@ -149,12 +147,11 @@ add_filter( 'osd_booking_events', function( $events ) {
             Grid breakpoints: <strong>4 col</strong> ≥ 1100px &nbsp;·&nbsp;
             <strong>3 col</strong> ≤ 1100px &nbsp;·&nbsp;
             <strong>2 col</strong> ≤ 768px &nbsp;·&nbsp;
-            <strong>1 col</strong> ≤ 480px
+            <strong>2 col</strong> ≤ 480px &nbsp;·&nbsp;
+            <strong>2 col</strong> ≤ 360px
         </p>
 
-
-        <!-- ── Resizable Preview ──────────────────────────────────── -->
-        <h3 style="margin-top: 20px;">Preview</h3>
+        <h3>Preview</h3>
 
         <div style="margin-bottom: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
             <label for="osd-uc-width-slider" style="font-size: 0.85em; white-space: nowrap;">
@@ -232,6 +229,5 @@ add_filter( 'osd_booking_events', function( $events ) {
             } )();
         </script>
     </div>
-
 
 </div>

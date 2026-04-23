@@ -1,0 +1,15 @@
+# WordPress core (never commit this)
+wp-admin/
+wp-includes/
+wp-content/uploads/
+
+# Build artifacts
+*.zip
+/build/dist/
+
+# IDE
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store

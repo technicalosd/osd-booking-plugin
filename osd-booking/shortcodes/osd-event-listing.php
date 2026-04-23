@@ -35,24 +35,24 @@ function osd_event_listing_shortcode(): string {
     // ── Data ────────────────────────────────────────────────────────────
     // Define your events here, or supply them via the filter below.
     $events = [
-        [
-            'event_name'    => 'Bus to - Ewan McVicar – 3Arena',
-            'dates'         => [ '2026-06-30', '2026-07-01' ],
-            'more_info_url' => '#',
-            'book_now_url'  => '#',
-        ],
-        [
-            'event_name'    => 'Bus to - Tyler Childers – 3Arena',
-            'dates'         => [ '2026-07-30' ],
-            'more_info_url' => '#',
-            'book_now_url'  => '#',
-        ],
-        [
-            'event_name'    => 'Bus to - Laufey – 3Arena',
-            'dates'         => [ '2026-08-30' ],
-            'more_info_url' => '#',
-            'book_now_url'  => '#',
-        ],
+            [
+                    'event_name'    => 'Bus to - Ewan McVicar – 3Arena',
+                    'dates'         => [ '2026-06-30', '2026-07-01' ],
+                    'more_info_url' => '#',
+                    'book_now_url'  => '#',
+            ],
+            [
+                    'event_name'    => 'Bus to - Tyler Childers – 3Arena',
+                    'dates'         => [ '2026-07-30' ],
+                    'more_info_url' => '#',
+                    'book_now_url'  => '#',
+            ],
+            [
+                    'event_name'    => 'Bus to - Laufey – 3Arena',
+                    'dates'         => [ '2026-08-30' ],
+                    'more_info_url' => '#',
+                    'book_now_url'  => '#',
+            ],
     ];
 
     /**
@@ -75,25 +75,23 @@ function osd_event_listing_shortcode(): string {
     ob_start();
     ?>
     <div class="tafe-table-wrap">
-        <table class="tafe-table">
-            <tbody>
+        <div class="tafe-table" role="table">
             <?php foreach ( $events as $event ) :
                 $name     = esc_html( $event['event_name'] );
                 $dates    = osd_event_listing_format_dates( $event['dates'] );
                 $more_url = esc_url( $event['more_info_url'] );
                 $book_url = esc_url( $event['book_now_url'] );
                 ?>
-                <tr>
-                    <td class="col-event"><?php echo $name; ?></td>
-                    <td class="col-date"><?php echo $dates; ?></td>
-                    <td class="col-actions">
+                <div class="tafe-row" role="row">
+                    <div class="col-event" role="cell"><?php echo $name; ?></div>
+                    <div class="col-date" role="cell"><?php echo $dates; ?></div>
+                    <div class="col-actions" role="cell">
                         <a href="<?php echo $more_url; ?>" class="btn btn-more">More Info</a>
                         <a href="<?php echo $book_url; ?>" class="btn btn-book">Book Now</a>
-                    </td>
-                </tr>
+                    </div>
+                </div>
             <?php endforeach; ?>
-            </tbody>
-        </table>
+        </div>
     </div>
     <?php
     return ob_get_clean();
@@ -160,162 +158,243 @@ function osd_event_listing_enqueue_styles(): void {
  */
 function osd_event_listing_css(): string {
     return '
-    /* ── OSD Event Listing: tafe-table ──────────────────────────── */
+    /* ── OSD Event Listing ───────────────────────────────────────────────
+     * Pure div layout — immune to Elementor table/td overrides.
+     * All properties explicitly set to prevent Elementor global kit
+     * (frontend.min.css, global.css) from affecting layout or sizing.
+     * ──────────────────────────────────────────────────────────────────── */
+
     .tafe-table-wrap {
-        max-width: 900px;
-        margin: 0 auto;
+        max-width: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
         container-type: inline-size;
         container-name: tafe-listing;
+        background: transparent;
     }
 
     .tafe-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
     }
 
-    .tafe-table tbody tr {
-        background-color: #dce8f5;
+    /* ── Row: 3-column grid ─────────────────────────────────────────── */
+    .tafe-table .tafe-row {
+        display: grid !important;
+        grid-template-columns: 2fr 1.4fr auto !important;
+        align-items: center !important;
+        background-color: #dce8f5 !important;
         transition: background 0.2s ease;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
     }
 
-    .tafe-table tbody tr:hover {
-        background-color: #cddff0;
+    .tafe-table .tafe-row:hover {
+        background-color: #cddff0 !important;
     }
 
-    .tafe-table tbody tr + tr td {
-        border-top: 4px solid #f5f7fa;
+    .tafe-table .tafe-row + .tafe-row {
+        margin-top: 4px !important;
     }
 
-    .tafe-table td {
-        padding: 16px 20px;
-        vertical-align: middle;
-        font-size: 0.95rem;
-        color: #1a1a2e;
+    /* ── Cells: reset everything Elementor might set on divs ──────── */
+    .tafe-table .tafe-row .col-event,
+    .tafe-table .tafe-row .col-date,
+    .tafe-table .tafe-row .col-actions {
+        padding: 16px 20px !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+        font-size: 0.95rem !important;
+        color: #1a1a2e !important;
+        line-height: 1.4 !important;
+        background: transparent !important;
+        border: none !important;
+        float: none !important;
     }
 
-    .tafe-table .col-event {
-        font-weight: 600;
-        font-size: 1rem;
-        width: 38%;
+    .tafe-table .tafe-row .col-event {
+        font-weight: 600 !important;
+        font-size: 1rem !important;
     }
 
-    .tafe-table .col-date {
-        color: #374151;
-        font-size: 0.92rem;
-        width: 26%;
+    .tafe-table .tafe-row .col-date {
+        color: #374151 !important;
+        font-size: 0.92rem !important;
     }
 
-    /* Actions cell: buttons sit right-aligned side by side on desktop */
-    .tafe-table .col-actions {
-        text-align: right;
-        white-space: nowrap;
-        width: 36%;
+    .tafe-table .tafe-row .col-actions {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 8px !important;
+        padding: 12px 16px !important;
+        white-space: nowrap !important;
+        background: transparent !important;
     }
 
-    .tafe-table .btn {
-        display: inline-block;
-        padding: 11px 26px;
-        border-radius: 50px;
-        font-size: 0.88rem;
-        font-weight: 600;
-        text-decoration: none;
-        letter-spacing: 0.02em;
-        cursor: pointer;
-        border: none;
-        transition: opacity 0.18s ease, transform 0.15s ease;
+    /* ── Buttons: reset all Elementor a-tag and button global styles ─ */
+    .tafe-table .tafe-row .col-actions .btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 11px 22px !important;
+        margin: 0 !important;
+        border-radius: 50px !important;
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        line-height: 1.5 !important;
+        text-decoration: none !important;
+        letter-spacing: 0.02em !important;
+        cursor: pointer !important;
+        border: none !important;
+        outline: none !important;
+        white-space: nowrap !important;
+        box-shadow: none !important;
+        transition: opacity 0.18s ease, transform 0.15s ease !important;
+        min-height: 0 !important;
+        height: auto !important;
+        width: 200px !important;
+        float: none !important;
+        vertical-align: middle !important;
     }
 
-    .tafe-table .btn + .btn {
-        margin-left: 8px;
+    .tafe-table .tafe-row .col-actions .btn:hover {
+        opacity: 0.85 !important;
+        transform: translateY(-1px) !important;
+        text-decoration: none !important;
     }
 
-    .tafe-table .btn:hover {
-        opacity: 0.85;
-        transform: translateY(-1px);
+    .tafe-table .tafe-row .col-actions .btn-more {
+        background-color: #0d1b3e !important;
+        color: #ffffff !important;
+        font-weight: 600 !important;
     }
 
-    .tafe-table .btn-more {
-        background-color: #0d1b3e;
-        color: #ffffff;
+    .tafe-table .tafe-row .col-actions .btn-book {
+        background-color: #5cb85c !important;
+        color: #011F3D !important;
+        font-weight: 600 !important;
     }
 
-    .tafe-table .btn-book {
-        background-color: #5cb85c;
-        color: #ffffff;
-    }
+    /* ── Tablet (container ≤ 700px) ──────────────────────────────────── */
+    @container tafe-listing (max-width: 700px) {
+        .tafe-table .tafe-row {
+            grid-template-columns: 1.6fr 1.2fr auto !important;
+        }
 
-    /* ── Tablet (container ≤ 720px) ──────────────────────────── */
-    @container tafe-listing (max-width: 720px) {
-        .tafe-table .col-event { width: auto; }
-        .tafe-table .col-date  { width: auto; }
-
-        .tafe-table .btn {
-            padding: 9px 16px;
-            font-size: 0.82rem;
+        .tafe-table .tafe-row .col-actions .btn {
+            padding: 9px 14px !important;
+            font-size: 1rem !important;
         }
     }
 
-    /* ── Mobile cards (container ≤ 560px) ────────────────────── */
+    /* ── Elementor ancestor chain reset ─────────────────────────────────
+     * The gap below the rows is caused by Elementor applying min-height
+     * to the widget, column, or section wrapping the shortcode.
+     * Walk the full ancestor chain — widget → column → section — and
+     * force every level to shrink-wrap its content at all viewports.
+     * We target both the known data-id and generic Elementor class names
+     * so this works regardless of which level holds the excess height.
+     * ──────────────────────────────────────────────────────────────────── */
+
+    /* Widget level — the shortcode widget itself */
+    [data-id="3b5c2a5"],
+    [data-id="3b5c2a5"] > .elementor-widget-container {
+        min-height: 0 !important;
+        height: auto !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* Column level — the column containing the widget */
+    [data-id="3b5c2a5"] closest .elementor-column,
+    :has(> [data-id="3b5c2a5"]) {
+        min-height: 0 !important;
+        height: auto !important;
+    }
+
+    /* Broad reset — any Elementor widget/column/section that directly
+       contains our .tafe-table-wrap shrinks to fit its content */
+    .elementor-widget:has(.tafe-table-wrap),
+    .elementor-widget:has(.tafe-table-wrap) > .elementor-widget-container,
+    .elementor-column:has(.tafe-table-wrap) > .elementor-column-wrap,
+    .elementor-column:has(.tafe-table-wrap) > .elementor-column-wrap > .elementor-widget-wrap,
+    .e-con:has(.tafe-table-wrap) {
+        min-height: 0 !important;
+        height: auto !important;
+        flex-basis: auto !important;
+    }
+
+    /* Mobile-specific reset — Elementor often sets min-height only at ≤767px */
+    @media (max-width: 1024px) {
+        [data-id="3b5c2a5"],
+        [data-id="3b5c2a5"] > .elementor-widget-container,
+        .elementor-widget:has(.tafe-table-wrap),
+        .elementor-widget:has(.tafe-table-wrap) > .elementor-widget-container,
+        .elementor-column:has(.tafe-table-wrap) > .elementor-column-wrap,
+        .elementor-column:has(.tafe-table-wrap) > .elementor-column-wrap > .elementor-widget-wrap,
+        .e-con:has(.tafe-table-wrap) {
+            min-height: 0 !important;
+            height: auto !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            flex-basis: auto !important;
+        }
+    }
+
+    /* ── Mobile cards (container ≤ 560px) ────────────────────────────── */
     @container tafe-listing (max-width: 560px) {
 
-        /* Force the browser to abandon table layout entirely */
-        .tafe-table         { display: block !important; width: 100% !important; }
-        .tafe-table tbody   { display: block !important; width: 100% !important; }
-        .tafe-table tr      { display: block !important; width: 100% !important; }
-        .tafe-table td      { display: block !important; width: 100% !important; }
-
-        .tafe-table tbody tr {
-            border-radius: 10px;
-            margin-bottom: 10px;
-            overflow: hidden;
-            padding: 0;
+        .tafe-table .tafe-row {
+            grid-template-columns: 1fr !important;
+            border-radius: 10px !important;
+            overflow: hidden !important;
+            margin-top: 8px !important;
         }
 
-        /* Drop the row-separator border — cards have their own gap */
-        .tafe-table tbody tr + tr td {
-            border-top: none;
+        .tafe-table .tafe-row:first-child {
+            margin-top: 0 !important;
         }
 
-        .tafe-table td {
-            padding: 10px 16px;
-            text-align: left;
-            white-space: normal;
-            box-sizing: border-box;
+        .tafe-table .tafe-row .col-event,
+        .tafe-table .tafe-row .col-date,
+        .tafe-table .tafe-row .col-actions {
+            padding: 8px 16px !important;
         }
 
-        .tafe-table .col-event {
-            font-size: 1rem;
-            padding-top: 14px;
+        .tafe-table .tafe-row .col-event {
+            padding-top: 14px !important;
+            font-size: 1rem !important;
         }
 
-        .tafe-table .col-date {
-            padding-top: 2px;
-            padding-bottom: 10px;
-            font-size: 0.85rem;
-            color: #4b5563;
+        .tafe-table .tafe-row .col-date {
+            font-size: 0.85rem !important;
+            color: #4b5563 !important;
+            padding-bottom: 4px !important;
         }
 
-        /* Actions cell: override back to flex for the two buttons */
-        .tafe-table .col-actions {
-            display: flex !important;
-            gap: 10px;
-            padding: 0 16px 14px;
-            white-space: normal;
-            width: 100% !important;
-            box-sizing: border-box;
+        .tafe-table .tafe-row .col-actions {
+            justify-content: flex-start !important;
+            padding: 6px 16px 14px !important;
+            gap: 10px !important;
+            white-space: normal !important;
         }
 
-        .tafe-table .col-actions .btn {
-            flex: 1;
-            text-align: center;
-            padding: 11px 10px;
-            font-size: 0.87rem;
-            margin-left: 0;
-        }
-
-        .tafe-table .col-actions .btn + .btn {
-            margin-left: 0;
+        .tafe-table .tafe-row .col-actions .btn {
+            flex: 1 !important;
+            text-align: center !important;
+            justify-content: center !important;
+            padding: 15px 8px !important;
+            font-size: 1rem !important;
+            width: auto !important;
+            min-height: 48px !important;
         }
     }
     ';
